@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game with Chicken</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <img src="images/logo.svg" class="game-logo" alt="Game Logo">
+        <div class="scroll-container">
+            <div class="game-area" id="gameArea">
+              <img src="images/chicken.webp" id="chicken" class="chicken" alt="Chicken">
+              <!-- Multiplier circles will be generated here by JavaScript -->
+            </div>
+          </div>
+        <div class="buttons">
+            <!-- New Custom Dropdown for Difficulty Selection -->
+            <div class="difficulty-selector">
+                <div class="difficulty-selected">
+                    <span>EASY</span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="difficulty-options">
+                    <div class="difficulty-option" data-value="EASY">EASY</div>
+                    <div class="difficulty-option" data-value="MEDIUM">MEDIUM</div>
+                    <div class="difficulty-option" data-value="HARD">HARD</div>
+                    <div class="difficulty-option" data-value="DAREDEVIL">DAREDEVIL</div>
+                </div>
+            </div>
+            
+            <button class="play-btn" onclick="startGame()">Play</button>
+            <div id="loader" class="loader-container">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+            </div>
+            <button class="back-btn-main" onclick="goBack()">Back</button>
+            <div id="timerDisplay" class="timer-display"></div>
+        </div>
+        <div id="winPopup" class="win-popup">
+            <h2>SIGNAL</h2>
+            <p>x<span id="multiplierValue">1.00</span></p> 
+        </div>
+    </div>
+
+    <audio id="jumpSound" src="buttonClick.webm" preload="auto"></audio>
+    <audio id="winSound" src="Win.webm" preload="auto"></audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>

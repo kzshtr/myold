@@ -1,0 +1,293 @@
+/* --- ДОБАВЛЕННЫЙ БЛОК ДЛЯ ПОДКЛЮЧЕНИЯ ЛОКАЛЬНЫХ ШРИФТОВ --- */
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('fonts/SF-Pro-Display-Regular.woff2') format('woff2'); /* Путь к обычному начертанию */
+    font-weight: 500; /* Вес для кнопок */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('fonts/SF-Pro-Display-Semibold.woff2') format('woff2'); /* Путь к жирному начертанию */
+    font-weight: 600; /* Вес для текста сигнала */
+    font-style: normal;
+}
+/* --- КОНЕЦ ДОБАВЛЕННОГО БЛОКА --- */
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.page {
+    background: radial-gradient(circle at top, #2a2141, #1c162e);
+    color: white;
+    font-family: 'SF Pro Display', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* Нужно для позиционирования облаков */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* --- Стили для изображений --- */
+
+.clouds-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0; /* Позади всего контента */
+    pointer-events: none; /* Чтобы не мешали кликам */
+}
+
+.obloko, .obloko2 {
+    position: absolute;
+    display: block;
+    opacity: 0.2;
+    animation-name: fly1;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.obloko {
+    width: 300px;
+    top: 20%;
+    animation-duration: 25s;
+    animation-delay: -5s;
+}
+
+.obloko2 {
+    width: 200px;
+    top: 10%;
+    animation-duration: 35s;
+}
+
+@keyframes fly1 {
+    from { transform: translateX(100vw); }
+    to { transform: translateX(-300px); }
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 20px;
+    z-index: 1;
+}
+
+.logo-1win { height: 35px; width: auto; }
+.logo-luckyjet { height: 22px; width: auto; }
+
+/* --- Основные стили интерфейса --- */
+
+.main-content {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.game-container {
+    width: 100%;
+    height: 280px;
+    border: 1px solid #4a3f6d;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background-color: #120e26;
+}
+
+iframe {
+    width: 100%;
+    height: calc(100% + 55px);
+    border: none;
+    position: absolute;
+    top: -55px;
+    left: 0;
+}
+
+.signal-box {
+    width: 100%;
+    background: rgba(18, 14, 38, 0.7);
+    border: 1px solid #4a3f6d;
+    border-radius: 15px;
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#signalText {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn {
+    width: 100%;
+    padding: 18px 0;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    background: linear-gradient(263.87deg, rgb(148, 78, 245) 0%, rgb(92, 36, 252) 100%);
+    box-shadow: rgba(92, 36, 252, 0.3) 0px 5px 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: rgba(92, 36, 252, 0.5) 0px 8px 20px;
+}
+
+.btn:active { transform: translateY(0); }
+
+/* --- ИЗМЕНЕНИЕ: Добавлены стили для TG уведомления --- */
+@font-face {
+    font-family: 'Intro';
+    src: url('intro.otf') format('opentype');
+}
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    width: 90%;
+    max-width: 350px;
+    z-index: 1000;
+    pointer-events: none;
+    font-family: 'Intro', sans-serif;
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.4s ease-out;
+}
+.notification-container.show {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+.notification-container.hide {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045), 
+                opacity 0.3s ease-in;
+    transition-delay: 0.2s;
+}
+
+.liquid-crystal-bubble {
+    position: relative;
+    text-decoration: none;
+    display: block;
+    border-radius: 50px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.liquid-crystal-bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1px; height: 1px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+    animation: none;
+}
+.notification-container.show .liquid-crystal-bubble::before {
+    animation: ripple-effect 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+@keyframes ripple-effect {
+    to { transform: translate(-50%, -50%) scale(15); opacity: 0; }
+}
+
+.liquid-crystal-bubble::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    z-index: 1;
+    background: linear-gradient(-45deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.2) 48%, rgba(255, 255, 255, 0.2) 52%, rgba(255, 255, 255, 0) 60%);
+    animation: liquid-flow 10s linear infinite;
+}
+@keyframes liquid-flow {
+    from { transform: translate(0, 0); }
+    to { transform: translate(25%, 25%); }
+}
+
+.notification-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+.notification-container.show .notification-content {
+    opacity: 1;
+    transition-delay: 0.3s;
+}
+.notification-container.hide .notification-content {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+}
+
+.icon-container {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    background: linear-gradient(145deg, rgba(25, 118, 210, 0.5), rgba(33, 150, 243, 0.5));
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.icon-container img { width: 20px; height: 20px; }
+
+.notification-text {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.crystal-reflection {
+    position: absolute;
+    top: 98%; left: 0; right: 0;
+    transform: scaleY(-1);
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+}

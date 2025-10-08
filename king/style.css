@@ -1,0 +1,274 @@
+/* --- Шрифты --- */
+@font-face { font-family: 'Intro'; src: url('fonts/intro.otf') format('opentype'); }
+@font-ace { font-family: 'Halvar'; src: url('fonts/halvar_breitschrift.ttf') format('truetype'); }
+
+/* --- Основные стили --- */
+body {
+    background: url('1.jpg') no-repeat 0% 50% fixed;
+    background-size: cover;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Intro', sans-serif;
+    color: white;
+    animation: pan-body-background 20s linear infinite alternate;
+}
+
+@keyframes pan-body-background {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+}
+
+.animations-paused,
+.animations-paused .flying-object {
+    animation-play-state: paused;
+}
+
+/* --- Лоадер №1 --- */
+#page-load-loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1000; display: flex; justify-content: center; align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow: hidden;
+}
+
+#page-load-loader .loader-text {
+    font-size: 3rem; text-shadow: 0 0 15px #e52d27, 0 0 25px #000;
+    letter-spacing: 5px; z-index: 1002;
+}
+
+#flying-objects-container {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden; z-index: 1001;
+}
+
+.flying-object {
+    position: absolute; display: block; pointer-events: none;
+    animation-name: fall-down;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes fall-down {
+    from { transform: translateY(0) rotate(var(--start-rot)); }
+    to { transform: translateY(calc(100vh + 200px)) rotate(var(--end-rot)); }
+}
+
+/* --- Лоадер №2 --- */
+#game-start-loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 0, 0, 0.9); backdrop-filter: blur(5px);
+    z-index: 900; display: none; justify-content: center; align-items: center;
+}
+.loader-content { text-align: center; }
+.loader-skull { width: 150px; animation: pulse 1.5s infinite ease-in-out; }
+.loader-text.small-text { margin-top: 20px; font-size: 1.8rem; letter-spacing: 3px; }
+@keyframes pulse {
+    0% { transform: scale(1); filter: drop-shadow(0 0 10px #ff4d4d); }
+    50% { transform: scale(1.1); filter: drop-shadow(0 0 30px #ff0000); }
+    100% { transform: scale(1); filter: drop-shadow(0 0 10px #ff4d4d); }
+}
+
+/* --- Игровые элементы --- */
+.game-wrapper { opacity: 0; transition: opacity 0.8s ease-in-out; }
+.container { display: flex; justify-content: center; align-items: flex-end; margin-top: 240px; position: relative; }
+.container img.skull { width: 110px; margin: -3px; transition: transform 0.5s cubic-bezier(0.32, 0.64, 0.45, 1); position: relative; z-index: 2; }
+#diamond { position: absolute; width: 120px; z-index: 1; display: none; pointer-events: none; }
+
+/* --- ИЗМЕНЕНИЕ №1: ПЕРЕМЕЩАЕМ РЕЗУЛЬТАТ ВЫШЕ --- */
+#message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 64px;
+    margin-top: -520px; /* Было -450px. Чем меньше число, тем выше. */
+}
+
+/* --- ИЗМЕНЕНИЕ №2: ОБНОВЛЕННЫЙ ДИЗАЙН СООБЩЕНИЯ --- */
+.glass-message {
+    padding: 18px 40px; /* Немного изменили отступы */
+    border-radius: 50px; /* Полностью скругленные края */
+    background: rgba(10, 5, 5, 0.35); /* Более темное и красное стекло */
+    backdrop-filter: blur(15px); /* Более сильное размытие */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 215, 0, 0.5); /* Тонкая золотая рамка */
+    /* Комплексная тень для эффекта глубины и свечения */
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.15), /* Внутренний блик сверху */
+        0 0 30px rgba(0, 0, 0, 0.5); /* Внешняя тень для глубины */
+    
+    color: #fff;
+    font-family: 'Halvar', sans-serif;
+    font-size: 2.3rem; /* Сделали шрифт крупнее */
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    /* Тень для текста с эффектом золотого свечения */
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.6);
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+/* --- Кнопки и прочее без изменений --- */
+.button-container { display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 60px; width: 100%; }
+.start-button, .return-button { font-family: 'Intro', sans-serif; font-size: 18px; font-weight: bold; letter-spacing: 1px; padding: 14px 30px; width: 160px; border-radius: 50px; color: white; cursor: pointer; outline: none; border: 2px solid #e52d27; background: rgba(0, 0, 0, 0.3); text-shadow: 0 0 5px #000; transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s; text-decoration: none; text-align: center; }
+.return-button { margin-top: 20px; border-color: rgba(255, 255, 255, 0.5); }
+.start-button:hover, .return-button:hover { background-color: #e52d27; box-shadow: 0 0 20px rgba(229, 45, 39, 0.7); transform: translateY(-3px); }
+.return-button:hover { background-color: rgba(255, 255, 255, 0.8); color: #000; text-shadow: none; box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); }
+.start-button:active, .return-button:active { transform: translateY(1px); box-shadow: 0 0 5px rgba(229, 45, 39, 0.7); }
+.start-button:disabled { cursor: not-allowed; background: #555; border-color: #444; box-shadow: none; opacity: 0.6; }
+.selected-skull { filter: drop-shadow(0 0 40px #ffd700) brightness(1.15); }
+#footer-hash { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); font-family: 'Halvar', sans-serif; font-size: 0.9rem; color: rgba(255, 255, 255, 0.6); letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7); user-select: none; z-index: 50; opacity: 0; transition: opacity 0.8s ease-in-out; }
+
+@media (max-width: 600px) {
+    #page-load-loader .loader-text { font-size: 2.2rem; letter-spacing: 3px; }
+    #footer-hash { font-size: 0.7rem; letter-spacing: 1px; width: 95%; text-align: center; }
+    .container { margin-top: 180px; }
+    /* Также поднимаем сообщение и на мобильной версии */
+    #message { margin-top: -440px; }
+    .glass-message { 
+        font-size: 1.8rem; /* Уменьшаем для моб. версии */
+        padding: 15px 30px; 
+    }
+}
+
+/* === СТИЛИ ИНТЕГРИРОВАННОГО КОМПОНЕНТА TELEGRAM-УВЕДОМЛЕНИЯ === */
+
+/* --- КОНТЕЙНЕР УВЕДОМЛЕНИЯ --- */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    width: 90%;
+    max-width: 350px;
+    z-index: 1000;
+    pointer-events: none;
+    font-family: 'Intro', sans-serif; /* Применяем шрифт к компоненту */
+    
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.4s ease-out;
+}
+.notification-container.show {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+.notification-container.hide {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045), 
+                opacity 0.3s ease-in;
+    transition-delay: 0.2s;
+}
+
+/* --- СТИЛЬ "ЖИДКОГО КРИСТАЛЛА" --- */
+.liquid-crystal-bubble {
+    position: relative;
+    text-decoration: none;
+    display: block;
+    border-radius: 50px;
+    overflow: hidden;
+    
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.liquid-crystal-bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1px; height: 1px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+    animation: none;
+}
+.notification-container.show .liquid-crystal-bubble::before {
+    animation: ripple-effect 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+@keyframes ripple-effect {
+    to {
+        transform: translate(-50%, -50%) scale(15);
+        opacity: 0;
+    }
+}
+
+.liquid-crystal-bubble::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    z-index: 1;
+    background: linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.2) 48%,
+        rgba(255, 255, 255, 0.2) 52%,
+        rgba(255, 255, 255, 0) 60%
+    );
+    animation: liquid-flow 10s linear infinite;
+}
+@keyframes liquid-flow {
+    from { transform: translate(0, 0); }
+    to { transform: translate(25%, 25%); }
+}
+
+/* --- КОНТЕНТ УВЕДОМЛЕНИЯ --- */
+.notification-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+.notification-container.show .notification-content {
+    opacity: 1;
+    transition-delay: 0.3s;
+}
+.notification-container.hide .notification-content {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+}
+
+.icon-container {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    background: linear-gradient(145deg, rgba(25, 118, 210, 0.5), rgba(33, 150, 243, 0.5));
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.icon-container img {
+    width: 20px; height: 20px;
+}
+
+.notification-text {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* --- ЗЕРКАЛЬНОЕ ОТРАЖЕНИЕ --- */
+.crystal-reflection {
+    position: absolute;
+    top: 98%; left: 0; right: 0;
+    transform: scaleY(-1);
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+}

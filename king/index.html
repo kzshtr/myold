@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Thimbles</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Лоадер №1: Теперь это просто размытый оверлей -->
+    <div id="page-load-loader">
+        <div id="flying-objects-container"></div>
+        <div class="loader-text">DOWNLOAD</div>
+    </div>
+    
+    <!-- Лоадер №2: При нажатии на PLAY -->
+    <div id="game-start-loader">
+         <div class="loader-content">
+            <img src="1.png" alt="Loading..." class="loader-skull">
+            <div class="loader-text small-text">GET READY...</div>
+        </div>
+    </div>
+
+    <!-- Основной контейнер игры (изначально скрыт) -->
+    <div class="game-wrapper" style="display: none;">
+        <div class="container">
+            <img src="1.png" alt="Череп 1" id="skull1" class="skull">
+            <img src="1.png" alt="Череп 2" id="skull2" class="skull">
+            <img src="1.png" alt="Череп 3" id="skull3" class="skull">
+            <img src="3.png" alt="Алмаз" id="diamond">
+        </div>
+        <div class="button-container">
+            <button class="start-button" id="play-button">PLAY</button>
+            <button class="return-button" data-link="link">BACK</button>
+        </div>
+        <div id="message"></div>
+    </div>
+
+    <!-- Хеш-ID внизу страницы (изначально скрыт) -->
+    <div id="footer-hash" style="display: none;"></div>
+    
+    <!-- === ИНТЕГРИРОВАННЫЙ КОМПОНЕНТ TELEGRAM-УВЕДОМЛЕНИЯ === -->
+    <div id="notification-container" class="notification-container">
+        <a href="https://t.me/novahackrobot" target="_blank" class="liquid-crystal-bubble">
+            <div class="notification-content">
+                <div class="icon-container">
+                    <!-- Убедитесь, что файл tg.png находится в той же папке -->
+                    <img src="tg.png" alt="Telegram">
+                </div>
+                <span class="notification-text" id="notification-username"></span>
+            </div>
+        </a>
+        <div class="crystal-reflection">
+            <div class="liquid-crystal-bubble"></div>
+        </div>
+    </div>
+    <!-- === КОНЕЦ КОМПОНЕНТА === -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+/* --- ГЛОБАЛЬНЫЕ СТИЛИ И ФОН --- */
+:root {
+    --bg-color: #0d0d1e;
+    --primary-glow: #0055ff;
+    --secondary-glow: #ff7638;
+    --text-light: #e0e0e0;
+    --text-dark: #a0a0c0;
+    --font-family: 'Exo 2', sans-serif;
+    --win-color: #00ff87;
+    --lose-color: #ff3c5b;
+}
+
+/* ДОБАВЛЕН ШРИФТ ДЛЯ УВЕДОМЛЕНИЯ */
+@font-face {
+    font-family: 'Intro';
+    src: url('fonts/intro.otf') format('opentype');
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.page {
+    background-color: var(--bg-color); color: var(--text-light); font-family: var(--font-family);
+    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+    overflow-x: hidden; display: flex; flex-direction: column; justify-content: center; min-height: 100vh;
+}
+.page::before { content: ""; background-image: url('images/bg.jpg'); background-size: cover; background-position: center top; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; opacity: 0.4; }
+img { pointer-events: none; -webkit-user-select: none; user-select: none; }
+.main-container { display: flex; flex-direction: column; align-items: center; padding: 20px; gap: 20px; width: 100%; }
+
+/* --- ЛОГОТИПЫ --- */
+.winner { display: flex; justify-content: space-between; width: 100%; max-width: 300px; align-items: center; }
+.luck { width: 140px; }
+.win { width: 90px; }
+
+/* --- ИГРОВОЙ ЭКРАН "VIEWPORT" --- */
+.cv { width: 100%; max-width: 300px; height: 200px; position: relative; display: flex; justify-content: center; border: 1px solid rgba(173, 173, 211, 0.2); border-radius: 15px; overflow: hidden; z-index: 1; }
+.cv::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(26, 26, 30, 0.5); backdrop-filter: blur(3px); border-radius: 15px; z-index: 0; }
+.glowing-box-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 15px; overflow: hidden; z-index: 1; }
+.glowing-box, .glowing-box1 { position: absolute; top: 0; height: 100%; width: 60%; }
+.glowing-box { right: 0; background: linear-gradient(to left, rgba(255, 94, 0, 0.3) 0%, transparent 80%); }
+.glowing-box1 { left: 0; background: linear-gradient(to right, rgba(0, 85, 255, 0.4) 0%, transparent 80%); }
+
+/* --- ЭЛЕМЕНТЫ ВНУТРИ ИГРОВОГО ЭКРАНА --- */
+.rocket { width: 100%; max-width: 300px; display: flex; flex-direction: column; align-items: center; position: relative; }
+.rocket__fire, .rocket__boy { position: absolute; transition: all 0.32s ease 0s; transform: rotate(7deg); width: 50px; top: -125px; z-index: 10; }
+.rocket__fire { left: 55px; animation: fly2 10s linear infinite; }
+.rocket__boy { right: 55px; animation: fly 10s linear infinite; }
+.section { position: absolute; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(173, 173, 211, 0.3), transparent); z-index: 5; }
+.section1 { top: -220px; }
+.section2 { top: 0px; }
+.dorog, .dorog2 { position: absolute; animation: fly1 0.5s linear infinite; width: 410px; z-index: 2; }
+.dorog { top: 0; } .dorog2 { top: -150px; }
+@keyframes fly { 0%, 100% { transform: translateY(0px); } 25% { transform: translateY(-20px); } 50% { transform: translateY(-15px); } 75% { transform: translateY(-40px); } }
+@keyframes fly1 { from { transform: translateY(0px); } to { transform: translateY(100px); } }
+@keyframes fly2 { 0%, 100% { transform: translateY(0px); } 25% { transform: translateY(-40px); } 50% { transform: translateY(-15px); } 75% { transform: translateY(-20px); } }
+
+/* --- КНОПКА И ТАЙМЕР --- */
+.button { width: 100%; max-width: 300px; height: 55px; font-family: var(--font-family); font-size: 16px; font-weight: 700; color: white; text-align: center; text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid rgba(1, 139, 255, 0.5); border-radius: 15px; cursor: pointer; position: relative; background: transparent; z-index: 1; overflow: hidden; transition: color 0.4s ease; }
+.button span { position: relative; z-index: 2; }
+.button::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow)); z-index: 0; opacity: 0; transition: opacity 0.4s ease; }
+.button:hover::before { opacity: 1; }
+.button:disabled { opacity: 0.5; cursor: not-allowed; border-color: rgba(173, 173, 211, 0.2); }
+.button:disabled:hover::before { opacity: 0; }
+.timer-wrapper { display: flex; justify-content: center; gap: 8px; width: 100%; margin-top: 15px; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+.timer-wrapper.active { opacity: 1; visibility: visible; }
+.tg, .timerss { font-size: 18px; font-weight: 400; color: var(--text-dark); margin: 0; }
+.timerss { font-weight: 600; color: var(--text-light); }
+
+/* --- ОБНОВЛЕННЫЕ СТИЛИ ЛОАДЕРА --- */
+.loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(13, 13, 30, 0.9); backdrop-filter: blur(5px); z-index: 999; display: none; justify-content: center; align-items: center; padding: 20px; }
+.loader-content { width: 100%; max-width: 300px; display: flex; flex-direction: column; align-items: center; }
+.loader { width: 100%; height: 8px; background-color: rgba(0,0,0,0.3); border-radius: 5px; }
+.loader .bar { width: 0%; height: 100%; background: linear-gradient(270deg, var(--primary-glow) 0%, var(--secondary-glow) 100%); border-radius: 5px; transition: width 10s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 0 10px var(--primary-glow), 0 0 10px var(--secondary-glow); }
+
+/* НОВЫЕ СТИЛИ ДЛЯ ТЕКСТА И ХЭША В ЛОАДЕРЕ */
+.loader-text { color: var(--text-dark); text-align: center; }
+#loader-status-text {
+    font-size: 18px;
+    color: var(--win-color);
+    text-shadow: 0 0 5px var(--win-color);
+    margin-bottom: 20px;
+    height: 22px; /* Предотвращает "прыжок" макета */
+    font-weight: 600;
+}
+#loader-hash {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    color: var(--text-dark);
+}
+
+/* --- МОДАЛЬНОЕ ОКНО --- */
+.modal-overlay { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s; }
+.modal-overlay.visible { opacity: 1; visibility: visible; }
+.modal-content { background-color: rgba(30, 30, 47, 0.7); backdrop-filter: blur(10px); padding: 25px; border-radius: 20px; width: 100%; max-width: 360px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255, 255, 255, 0.1); transform: scale(0.9); opacity: 0; transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+.modal-content.show { transform: scale(1); opacity: 1; }
+.modal-title { text-align: center; margin: 0 0 20px 0; font-weight: 700; font-size: 20px; letter-spacing: 1.5px; color: #fff; text-transform: uppercase; }
+.modal-cars-container { display: flex; justify-content: space-between; gap: 15px; }
+.modal-car-column { display: flex; flex-direction: column; align-items: center; width: 48%; padding: 15px 10px; background-color: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.05); opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.modal-car-column.reveal { opacity: 1; transform: translateY(0); }
+.car-status { font-size: 18px; font-weight: 700; letter-spacing: 1.5px; padding: 4px 0; width: 85px; text-align: center; border-radius: 8px; margin-bottom: 15px; }
+.car-status.win { background-color: rgba(0, 255, 135, 0.15); color: var(--win-color); text-shadow: 0 0 10px var(--win-color); }
+.car-status.lose { background-color: rgba(255, 60, 91, 0.15); color: var(--lose-color); text-shadow: 0 0 10px var(--lose-color); }
+.modal-car-img { width: 80px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
+.car-data { width: 100%; font-size: 16px; text-align: center; }
+.car-data p { margin: 8px 0; color: var(--text-dark); }
+.car-data p strong { color: var(--text-light); font-weight: 600; margin-left: 8px; }
+.modal-close-button { width: 100%; margin-top: 20px; padding: 12px; font-family: var(--font-family); font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dark); background-color: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; cursor: pointer; transition: background-color 0.3s, color 0.3s; }
+.modal-close-button:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--text-light); }
+
+/* --- ИЗМЕНЕННЫЕ СТИЛИ ДЛЯ КНОПКИ "НАЗАД" --- */
+.back-button {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 12px;
+    padding: 10px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    font-family: var(--font-family);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-decoration: none;
+    
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+}
+
+.back-button svg {
+    transition: fill 0.3s ease;
+}
+
+/* --- АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ --- */
+@media (max-width: 420px) {
+    .main-container { padding: 15px; gap: 15px; }
+    .luck { width: 120px; }
+    .win { width: 80px; }
+    .button { height: 50px; font-size: 15px; }
+    .timer-wrapper { margin-top: 12px; }
+    .tg, .timerss { font-size: 16px; }
+
+    #loader-status-text { font-size: 16px; }
+    #loader-hash { font-size: 14px; }
+
+    .modal-content { padding: 20px 15px; max-width: 100%; }
+    .modal-title { font-size: 18px; margin-bottom: 15px; }
+    .modal-cars-container { gap: 10px; }
+    .modal-car-column { padding: 10px; }
+    .modal-car-img { width: 70px; margin-bottom: 10px; }
+    .car-status { font-size: 16px; width: 75px; padding: 3px 0; margin-bottom: 10px; }
+    .car-data { font-size: 15px; }
+    .modal-close-button { padding: 10px; font-size: 14px; margin-top: 15px; }
+
+    /* Адаптация кнопки "Назад" */
+    .back-button {
+        padding: 10px;
+        font-size: 14px;
+        gap: 6px;
+    }
+}
+
+
+/* === СТИЛИ ИНТЕГРИРОВАННОГО TELEGRAM-УВЕДОМЛЕНИЯ === */
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    width: 90%;
+    max-width: 350px;
+    z-index: 1000;
+    pointer-events: none;
+    font-family: 'Intro', sans-serif;
+    
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.4s ease-out;
+}
+.notification-container.show {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+.notification-container.hide {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045), 
+                opacity 0.3s ease-in;
+    transition-delay: 0.2s;
+}
+
+.liquid-crystal-bubble {
+    position: relative;
+    text-decoration: none;
+    display: block;
+    border-radius: 50px;
+    overflow: hidden;
+    
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.liquid-crystal-bubble img {
+    pointer-events: auto;
+}
+
+.liquid-crystal-bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1px; height: 1px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+    animation: none;
+}
+.notification-container.show .liquid-crystal-bubble::before {
+    animation: ripple-effect 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+@keyframes ripple-effect {
+    to {
+        transform: translate(-50%, -50%) scale(15);
+        opacity: 0;
+    }
+}
+
+.liquid-crystal-bubble::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    z-index: 1;
+    background: linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.2) 48%,
+        rgba(255, 255, 255, 0.2) 52%,
+        rgba(255, 255, 255, 0) 60%
+    );
+    animation: liquid-flow 10s linear infinite;
+}
+@keyframes liquid-flow {
+    from { transform: translate(0, 0); }
+    to { transform: translate(25%, 25%); }
+}
+
+.notification-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+.notification-container.show .notification-content {
+    opacity: 1;
+    transition-delay: 0.3s;
+}
+.notification-container.hide .notification-content {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+}
+
+.icon-container {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    background: linear-gradient(145deg, rgba(25, 118, 210, 0.5), rgba(33, 150, 243, 0.5));
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.icon-container img {
+    width: 20px; height: 20px;
+}
+
+.notification-text {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.crystal-reflection {
+    position: absolute;
+    top: 98%; left: 0; right: 0;
+    transform: scaleY(-1);
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+}

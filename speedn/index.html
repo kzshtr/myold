@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="page">
+
+    <!-- ОБНОВЛЕННЫЙ ЛОАДЕР -->
+    <div class="loader-overlay">
+        <div class="loader-content">
+            <p id="loader-status-text" class="loader-text"></p>
+            <div class="loader">
+                <div class="bar"></div>
+            </div>
+            <p id="loader-hash" class="loader-text"></p>
+        </div>
+    </div>
+    
+    <main class="main-container">
+        <div class="winner">
+            <img class="luck" src="images/speed_logo.svg">
+            <img class="win" src="images/1win_logo.png">
+        </div>
+
+        <div class="cv">
+            <div class="glowing-box-container">
+                <div class="glowing-box"></div>
+                <div class="glowing-box1"></div>
+            </div>
+            <img class="dorog" src="images/obl.jpg">
+            <img class="dorog2" src="images/obl.jpg">
+        </div>
+        
+        <div class="rocket">
+            <button id="startButton" class="button">
+                <span>ПОЛУЧИТЬ СИГНАЛ</span>
+            </button>
+            <div class="timer-wrapper">
+                <p class="tg">До сигнала:</p>
+                <p id="timers" class="timerss"></p>
+            </div>
+            
+            <!-- START: КНОПКА "НАЗАД" ПЕРЕМЕЩЕНА СЮДА -->
+            <a onclick="history.back()" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+                <span>Назад</span>
+            </a>
+            <!-- END: КНОПКА "НАЗАД" -->
+            
+            <img class="rocket__boy" src="./images/car1.png"/>
+            <img class="rocket__fire" src="./images/car2.png"/>
+        
+            <div class="section section1"></div>
+            <div class="section section2"></div>
+        </div>
+    </main>
+
+    <div id="resultModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">РЕЗУЛЬТАТ СИГНАЛА</h2>
+            <div id="modal-cars-container" class="modal-cars-container">
+                <div class="modal-car-column" id="winner-column">
+                    <div id="winner-status" class="car-status"></div>
+                    <img id="winner-car-img" src="" alt="Winning Car" class="modal-car-img">
+                    <div id="winner-car-data" class="car-data"></div>
+                </div>
+                <div class="modal-car-column" id="loser-column">
+                    <div id="loser-status" class="car-status"></div>
+                    <img id="loser-car-img" src="" alt="Losing Car" class="modal-car-img">
+                    <div id="loser-car-data" class="car-data"></div>
+                </div>
+            </div>
+            <button id="modalCloseBtn" class="modal-close-button">Закрыть</button>
+        </div>
+    </div>
+    
+    <!-- === ИНТЕГРИРОВАННЫЙ КОМПОНЕНТ TELEGRAM-УВЕДОМЛЕНИЯ === -->
+    <div id="notification-container" class="notification-container">
+        <a href="https://t.me/tripX_bot" target="_blank" class="liquid-crystal-bubble">
+            <div class="notification-content">
+                <div class="icon-container">
+                    <img src="tg.png" alt="Telegram">
+                </div>
+                <span class="notification-text" id="notification-username"></span>
+            </div>
+        </a>
+        <div class="crystal-reflection">
+            <div class="liquid-crystal-bubble"></div>
+        </div>
+    </div>
+    <!-- === КОНЕЦ КОМПОНЕНТА === -->
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выигрыши</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="preload">
+
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="spinner"></div>
+            <p class="preloader-text">Licensed Telegram bot: @novahackrobot</p>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <h1 id="win-title" class="header-title"></h1>
+        <div id="language-selector" class="language-selector">
+            <button id="language-button" class="language-button" aria-label="Выбрать язык" aria-haspopup="true" aria-expanded="false">
+                <img id="language-flag" src="other/ru.png" alt="флаг языка">
+                <span id="language-code">RU</span>
+                <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="language-menu" class="language-menu" role="menu">
+                <button class="lang-option" data-lang="ru" role="menuitem"><img src="other/ru.png" alt=""><span>RU</span></button>
+                <button class="lang-option" data-lang="en" role="menuitem"><img src="other/en.png" alt=""><span>EN</span></button>
+                <button class="lang-option" data-lang="es" role="menuitem"><img src="other/es.png" alt=""><span>ES</span></button>
+                <button class="lang-option" data-lang="pt" role="menuitem"><img src="other/pt.png" alt=""><span>PT</span></button>
+                <button class="lang-option" data-lang="tr" role="menuitem"><img src="other/tr.png" alt=""><span>TR</span></button>
+                <button class="lang-option" data-lang="hin" role="menuitem"><img src="other/hin.png" alt=""><span>HIN</span></button>
+                <button class="lang-option" data-lang="ar" role="menuitem"><img src="other/ar.png" alt=""><span>AR</span></button>
+                <button class="lang-option" data-lang="br" role="menuitem"><img src="other/br.png" alt=""><span>BR</span></button>
+                <button class="lang-option" data-lang="az" role="menuitem"><img src="other/az.png" alt=""><span>AZ</span></button>
+                <button class="lang-option" data-lang="uz" role="menuitem"><img src="other/uz.png" alt=""><span>UZ</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="win-feed" class="win-feed">
+        </div>
+    </main>
+
+    <svg style="position:absolute; height: 0; width: 0;">
+      <defs>
+        <filter id="neon-glow">
+          <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
+
+    <script src="script.js"></script>
+</body>
+</html>

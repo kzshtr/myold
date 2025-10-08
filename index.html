@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Game Selection - Cyber Glass 2026</title>
+    <link rel="stylesheet" href="style.css">
+	<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="modal-overlay" id="welcome-modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-text"></p>
+            <button class="modal-button" id="modal-close-button" disabled></button>
+        </div>
+    </div>
+
+    <div class="stars"></div>
+    <div class="top-bar">
+        <div class="device-info top-bar-element" id="device-info"></div>
+        <div class="language-switcher top-bar-element" id="language-switcher">
+            <div class="current-lang" id="current-lang">
+                <img src="avas/ru.png" alt="Russian" class="lang-flag" id="current-flag">
+                <span class="lang-text" id="current-lang-text">RU</span>
+            </div>
+            <div class="lang-options" id="lang-options"></div>
+        </div>
+    </div>
+    
+    <div class="header">
+        <h1 id="header-title"></h1>
+        <h2 id="recommendation-title"></h2>
+    </div>
+
+    <div class="container" id="game-container"></div>
+
+    <script defer src="hi1.js"></script>
+    <script defer src="hi2.js"></script>
+    <script defer src="hi3.js"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+/* --- Полный Редизайн CSS --- */
+
+:root {
+  --bg-color: #0a0a10;
+  --primary-text: #e1e1e6;
+  --secondary-text: #a8a8b3;
+  --accent-neon: #00f0ff;
+  --accent-neon-rgb: 0, 240, 255;
+  --card-bg: rgba(26, 29, 41, 0.6);
+  --card-border: rgba(var(--accent-neon-rgb), 0.3);
+  --header-bg: rgba(10, 10, 16, 0.85);
+  --preloader-bg: #0a0a10; /* Фон прелоадера совпадает с фоном body */
+
+  --font-primary: 'Poppins', sans-serif;
+  --transition-speed: 0.3s;
+  --header-height: 75px; /* Задаем высоту хедера */
+}
+
+/* --- Базовые стили и фон --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-color);
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 20px 20px;
+  color: var(--primary-text);
+  font-family: var(--font-primary);
+  line-height: 1.6;
+  padding-top: var(--header-height); /* Используем переменную для отступа */
+  overflow-x: hidden;
+}
+
+/* --- Прелоадер --- */
+.preloader {
+  position: fixed;
+  inset: 0; /* top, right, bottom, left = 0 */
+  background-color: var(--preloader-bg);
+  z-index: 9999; /* Выше всего */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-out, visibility 0s linear 0.5s; /* Задержка для visibility */
+}
+
+body.loaded .preloader {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0s linear 0.5s;
+}
+
+
+.preloader-content {
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(var(--accent-neon-rgb), 0.2);
+  border-top-color: var(--accent-neon);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.preloader-text {
+  color: var(--secondary-text);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* Убираем анимации при загрузке, КРОМЕ прелоадера */
+body.preload *:not(.preloader):not(.preloader *) {
+  transition: none !important;
+  animation: none !important;
+}
+
+
+/* --- Шапка сайта --- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height); /* Фиксированная высота */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 35px; /* Вертикальный паддинг убран, т.к. высота фиксирована */
+  background-color: var(--header-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(var(--accent-neon-rgb), 0.15);
+  z-index: 1000;
+  box-shadow: 0 2px 15px rgba(0,0,0, 0.3);
+}
+
+.header-title {
+  font-size: 22px; /* Немного уменьшим для баланса */
+  font-weight: 600;
+  color: var(--primary-text);
+  text-shadow: 0 0 8px rgba(var(--accent-neon-rgb), 0.4);
+  z-index: 1; /* Чтобы был над фоном, но под селектором языка */
+  white-space: nowrap; /* Предотвратить перенос */
+  display: block !important; /* Гарантируем видимость */
+}
+
+/* --- Селектор языка (стили без изменений) --- */
+.language-selector {
+  position: relative;
+  z-index: 2; /* Выше заголовка */
+}
+
+.language-button {
+  background-color: rgba(var(--accent-neon-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-neon-rgb), 0.3);
+  border-radius: 8px;
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
+  font-family: inherit;
+  color: var(--primary-text);
+}
+
+.language-button:hover,
+.language-button[aria-expanded="true"] {
+  background-color: rgba(var(--accent-neon-rgb), 0.2);
+  border-color: rgba(var(--accent-neon-rgb), 0.6);
+  box-shadow: 0 0 12px rgba(var(--accent-neon-rgb), 0.3);
+}
+
+#language-flag {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+#language-code {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.dropdown-arrow {
+  color: var(--secondary-text);
+  transition: transform var(--transition-speed);
+  margin-left: 5px;
+}
+
+.language-button[aria-expanded="true"] .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.language-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background-color: #14161f;
+  border-radius: 8px;
+  padding: 8px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--card-border);
+  z-index: 1001; /* Выше всего в хедере */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.language-menu.open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 9px 12px;
+  border-radius: 6px;
+  transition: background-color var(--transition-speed);
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.lang-option:hover,
+.lang-option:focus {
+  background-color: rgba(var(--accent-neon-rgb), 0.15);
+  outline: none;
+}
+
+.lang-option img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lang-option span {
+  color: var(--primary-text);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* --- Лента выигрышей (стили почти без изменений) --- */
+.main-content {
+  padding: 30px 15px; /* Немного увеличим отступ сверху */
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.win-feed {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.win-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0 18px 20px;
+  position: relative;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 4px solid var(--accent-neon);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.4s ease, margin-bottom 0.4s ease; /* Добавляем transition для margin-bottom */
+  box-shadow: 0 5px 15px rgba(0,0,0, 0.2), inset 0 0 10px rgba(var(--accent-neon-rgb), 0.05);
+}
+
+.win-item:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0, 0.3), 0 0 20px rgba(var(--accent-neon-rgb), 0.3);
+}
+
+.win-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.win-item__icon-wrapper {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.win-item__icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(var(--accent-neon-rgb), 0.4);
+  box-shadow: 0 0 15px rgba(var(--accent-neon-rgb), 0.2);
+}
+
+.win-item__details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 20px;
+}
+
+.win-item__meta {
+  font-size: 13px;
+  color: var(--secondary-text);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.win-item__id { }
+
+.win-item__win-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.win-item__label {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--primary-text);
+}
+
+.win-item__amount {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-neon);
+   text-shadow: 0 0 10px rgba(var(--accent-neon-rgb), 0.6), 0 0 20px rgba(var(--accent-neon-rgb), 0.3);
+}
+
+/* --- Анимация удаления --- */
+.win-item.removing {
+  opacity: 0 !important;
+  transform: scale(0.9) translateX(-30px) !important;
+  /* margin-bottom: calc(-1 * (размер элемента + gap)); нужно подобрать значение */
+  margin-bottom: -85px; /* Примерное значение, подберите точнее */
+  pointer-events: none;
+}
+
+/* --- Адаптивность --- */
+@media (max-width: 700px) {
+  :root {
+      --header-height: 65px; /* Уменьшаем хедер на мобилках */
+  }
+  .site-header {
+    padding: 0 20px;
+  }
+  .header-title {
+    font-size: 18px; /* Уменьшаем шрифт заголовка */
+  }
+  .main-content {
+    padding: 20px 10px;
+  }
+  .win-item {
+    gap: 15px;
+    padding-left: 15px;
+  }
+  .win-item__icon {
+    width: 50px;
+    height: 50px;
+  }
+  .win-item__amount {
+    font-size: 18px;
+  }
+   .win-item__label {
+       font-size: 15px;
+   }
+   /* Уменьшаем отрицательный margin для анимации удаления */
+   .win-item.removing {
+       margin-bottom: -75px;
+   }
+}
+
+/* Убираем заголовок на совсем маленьких экранах */
+@media (max-width: 480px) {
+     .header-title {
+       /* display: none; */ /* Убрал скрытие */
+       font-size: 16px; /* Еще уменьшим */
+       flex-shrink: 1; /* Позволим сжиматься */
+       margin-right: 10px; /* Отступ от кнопки языка */
+     }
+     .site-header {
+         padding: 0 15px;
+         /* justify-content: flex-end; */ /* Вернул обратно */
+     }
+     .win-item__details {
+         padding-right: 15px;
+     }
+     .win-item__win-info {
+         gap: 5px;
+     }
+}
